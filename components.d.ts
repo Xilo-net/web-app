@@ -10,5 +10,6 @@ declare module '@vue/runtime-core' {
     ButtonRepo: typeof import('./src/components/ButtonRepo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Sidebar: typeof import('./src/components/Sidebar.vue')['default']
   }
 }

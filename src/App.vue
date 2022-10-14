@@ -1,26 +1,37 @@
 <script setup>
-let counter = ref(0);
-
-setInterval(() => {
-  counter.value++;
-}, 1000);
+import Sidebar from "./components/Sidebar.vue";
 </script>
 
 <template>
-  <div>
-    <header class="bg-white shadow" v-if="$route.meta.title">
-      <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1
-          @click="counter = 0"
-          class="text-3xl font-bold leading-tight text-gray-900"
-          title="click to reset a counter"
-        >
-          {{ $route.meta.title }} / {{ counter }}
-        </h1>
-      </div>
-    </header>
+  <div class="app">
+    <Sidebar />
     <main>
       <router-view />
     </main>
   </div>
 </template>
+
+<style lang="scss">
+:root {
+  --primary: #9fe271;
+  --primary-alt: #22c55e;
+  --grey: #64748b;
+  --dark: #44405d;
+  --dark-alt: #5b5779;
+  --light: #f1f5f9;
+  --sidebar-width: 300px;
+}
+
+.app {
+  display: flex;
+  main {
+    flex: 1 1 0;
+    padding: 2rem;
+    background-color: #f5ffef;
+
+    @media (max-width: 768px) {
+      padding-left: 6rem;
+    }
+  }
+}
+</style>
