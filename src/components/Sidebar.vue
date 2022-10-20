@@ -47,7 +47,7 @@ const sidebarElements = [
     label: "Dashboard",
   },
   {
-    route: "/about",
+    route: "/groups",
     icon: "groups",
     label: "Grupos",
   },
