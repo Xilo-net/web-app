@@ -1,7 +1,7 @@
 <route lang="json">
 {
   "meta": {
-    "title": "Home"
+    "title": "Signa Admin"
   }
 }
 </route>
