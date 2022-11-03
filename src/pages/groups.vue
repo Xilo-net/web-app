@@ -8,6 +8,9 @@
 
 <script setup>
 import { Menu, MenuButton, MenuItem, MenuItems, Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { GetPipe, PostPipe } from '../services/api.js'
+import { onMounted, watch } from 'vue'
+
 useHead({ title: 'About' });
 
 const groupOptions = ref(
@@ -18,11 +21,68 @@ function logSelectedGroup(group) {
   console.log('Grupo: ', group)
 }
 
+function submit() {
+  let body = {
+    "first_name": "Tester",
+  	"last_name": "Testing",
+	  "email": "tt@test.com",
+	  "admin": true,
+	  "points": 10,
+	  "progress": []
+  };
+
+  PostPipe(body, 'users')
+  fetchUsers();
+  open.value = false;
+}
+
+function calculateAverage() {
+  if (usersRanking.value.length > 0) {
+    let sum = 0;
+    usersRanking.value.forEach(user => {
+      sum += user.points;
+    });
+    return (sum / usersRanking.value.length).toFixed(2);
+  }
+}
+
+function fetchUsers() {
+  GetPipe('users')
+  .then((response) => {
+    usersRanking.value = response;
+    selectedUser = response[0];
+    average.value = calculateAverage();
+  })
+  .catch((error) => {
+    console.log(error)
+  })
+}
+
 const userNameQuery = ref('')
 
-const usersRanking = ref(
-  Array(10).fill({ name: 'Nombre Apellido Apellido', points: 59 }),
-);
+let usersRanking = ref([]);
+let average = ref(0);
+
+let selectedUser = ref({'data': {
+    "id": null,
+		"first_name": null,
+		"last_name": null,
+		"email": null,
+		"progress": [],
+		"admin": null,
+		"points": null,
+		"created_at": null,
+		"updated_at": null}});
+
+  // watch(selectedUser, (selectedUser, previousUser) => {
+  //   console.log('selectedUser', selectedUser);
+  //   console.log('previousUser', previousUser);
+  // })
+
+onMounted(() => {
+  fetchUsers();
+})
+
 
 const open = ref(false)
 </script>
@@ -66,7 +126,7 @@ const open = ref(false)
           <BarChart :height="150" :styles="{ color: 'red' }" />
           <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
             Promedio diaro grupal:
-            <span class="font-normal sm:text-xl mt-3 tracking-tight">46 puntos</span>
+            <span class="font-normal sm:text-xl mt-3 tracking-tight">{{average}}</span>
           </h2>
           <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">Usuarios más activos</h2>
           <div class="flex flex-col">
@@ -87,7 +147,7 @@ const open = ref(false)
                           {{ index + 1 }}
                         </td>
                         <td class=" text-sm text-gray-700 font-light px-6 py-4 whitespace-nowrap ">
-                          {{ user.name }}
+                          {{ user.first_name }} {{ user.last_name}}
                         </td>
                         <td class=" text-sm text-gray-700 font-light px-6 py-4 whitespace-nowrap ">
                           {{ user.points }}
@@ -131,11 +191,12 @@ const open = ref(false)
           </div>
 
           <div class="mt-3 rounded-md">
-
+<!-- selectedUser.value = user;  -->
             <ul class="w-full text-sm font-medium text-gray-700 bg-gray-100 rounded-lg border border-gray-300">
               <li v-for="(user, index) in usersRanking" :key="index"
+                @click="selectedUser = user"
                 class="py-2 px-4 w-full border-b transition ease-in-out border-gray-200 hover:bg-lime-300">
-                Nombre Apellido Apellido
+                {{user.first_name}} {{user.last_name}}
               </li>
             </ul>
           </div>
@@ -144,26 +205,21 @@ const open = ref(false)
         <div class="bg-white drop-shadow-md rounded-md mt-3 p-6">
           <div class="relative">
             <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
-              Nombre usuario seleccionado
+              {{ selectedUser.first_name }} {{ selectedUser.last_name }}
             </h1>
             <img class="w-20 h-20 top-0 right-0 absolute rounded-full"
               src="../../src/assets/img/default-profile-pic-yoda.jpg" alt="Rounded avatar">
           </div>
           <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
-            Puntaje Acumulado por día: {{ 59 }}
+            Puntaje Acumulado por día: {{ selectedUser.points }}
           </h2>
           <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
-            Secciones prácticadas
+            Secciones prácticadas:
           </h2>
           <ul class="inline-grid grid-cols-4 gap-4 mt-3 w-full">
-            <li>Comida</li>
-            <li>Hogar</li>
-            <li>Frutas</li>
-            <li>Cuerpo</li>
-            <li>Pronombres</li>
-            <li>Lugares</li>
-            <li>Maquinaria pesada</li>
-            <li>Días de la semana</li>
+            <li v-for="(lesson, index) in selectedUser.progress" :key ="index">
+            {{ lesson }}
+          </li>
           </ul>
         </div>
       </div>
@@ -199,7 +255,7 @@ const open = ref(false)
                 <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                   <button type="button"
                     class="inline-flex w-full justify-center rounded-md border border-transparent bg-lime-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-lime-600 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                    @click="open = false">Agregar</button>
+                    @click="submit()">Agregar</button>
                   <button type="button"
                     class="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
                     @click="open = false" ref="cancelButtonRef">Cancelar</button>
