@@ -3,9 +3,9 @@ import Sidebar from "./components/Sidebar.vue";
 </script>
 
 <template>
-  <div class="app">
+  <div class="app flex">
     <Sidebar />
-    <main>
+    <main class="p-0 flex-1 md:pl-24 md:p-8">
       <router-view />
     </main>
   </div>
@@ -23,15 +23,10 @@ import Sidebar from "./components/Sidebar.vue";
 }
 
 .app {
-  display: flex;
-  main {
-    flex: 1 1 0;
-    padding: 2rem;
-    background-color: #f5ffef;
+  min-height: 100vh;
 
-    @media (max-width: 768px) {
-      padding-left: 6rem;
-    }
+  main {
+    background-color: #f5ffef;
   }
 }
 </style>
