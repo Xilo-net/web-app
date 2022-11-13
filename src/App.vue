@@ -1,10 +1,14 @@
 <script setup>
 import Sidebar from "./components/Sidebar.vue";
+import { useUserStore } from "./stores/user";
+
+const userStore = useUserStore();
+
 </script>
 
 <template>
-  <div class="app flex">
-    <Sidebar />
+  <div class="flex min-h-screen">
+    <Sidebar v-if="!!userStore.user" />
     <main class="p-0 flex-1 md:pl-24 md:p-8">
       <router-view />
     </main>
@@ -22,11 +26,7 @@ import Sidebar from "./components/Sidebar.vue";
   --sidebar-width: 300px;
 }
 
-.app {
-  min-height: 100vh;
-
-  main {
-    background-color: #f5ffef;
-  }
+main {
+  background-color: #f5ffef;
 }
 </style>

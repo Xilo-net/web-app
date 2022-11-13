@@ -8,9 +8,10 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BarChart: typeof import('./src/components/BarChart.vue')['default']
-    BueChart: typeof import('./src/components/BueChart.vue')['default']
-    ButtonRepo: typeof import('./src/components/ButtonRepo.vue')['default']
-    Dropdown: typeof import('./src/components/Dropdown.vue')['default']
+    BueChart: typeof import("./src/components/BueChart.vue")["default"]
+    ButtonRepo: typeof import("./src/components/ButtonRepo.vue")["default"]
+    Dropdown: typeof import("./src/components/Dropdown.vue")["default"]
+    LoginForm: typeof import('./src/components/LoginForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Sidebar: typeof import('./src/components/Sidebar.vue')['default']
