@@ -1,5 +1,5 @@
 <script setup>
-import { toRefs } from 'vue';
+import { toRefs, watch } from 'vue';
 const props = defineProps({
     groupUsers: Array,
 });
@@ -20,6 +20,11 @@ const selectedUser = ref({
         "updated_at": null
     }
 });
+
+watch(groupUsers, (newUsers, oldUsers) => {
+    console.log()
+    selectedUser.value = newUsers[0];
+})
 
 </script>
 

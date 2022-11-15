@@ -11,24 +11,47 @@ import { GetPipe, PostPipe } from '../services/api.js'
 import { onMounted } from 'vue'
 useHead({ title: 'Grupos' });
 
-const groupOptions = ref(
-  Array(3).fill({ name: 'Grupo x' }),
-)
-
+const groupOptions = ref([]);
 const groupUsers = ref([]);
+const selectedGroup = ref({});
 
-function fetchUsers() {
-  GetPipe('users')
+// function fetchUsers() {
+//   GetPipe('users')
+//     .then((response) => {
+//       groupUsers.value = response;
+//     })
+//     .catch((error) => {
+//       console.log(error)
+//     })
+// }
+
+function fetchGroups() {
+  GetPipe('groups')
     .then((response) => {
-      groupUsers.value = response;
+      groupOptions.value = response;
+      selectGroup(0);
+      // selectedGroup.value = response[0];
+      // groupUsers.value = selectedGroup.value.group_users.map((userData) => {
+      //   return userData.user;
+      // });
+      // console.log(groupUsers.value)
     })
     .catch((error) => {
       console.log(error)
     })
 }
 
+function selectGroup(groupIndex = 0) {
+  selectedGroup.value = groupOptions.value[groupIndex];
+  groupUsers.value = selectedGroup.value.group_users.map((userData) => {
+    return userData.user;
+  });
+
+}
+
 onMounted(() => {
-  fetchUsers();
+  // fetchUsers();
+  fetchGroups();
 })
 
 
@@ -44,7 +67,7 @@ const isModalOpen = ref(false)
             <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
               Estadisticas del grupo
             </h1>
-            <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" />
+            <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" @select="selectGroup" />
           </div>
           <GroupMembersRanking :group-users="groupUsers" />
         </div>
