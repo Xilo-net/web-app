@@ -10,9 +10,9 @@ router.beforeEach(async (to, from, next) => {
 	const user = userStore.user;
 
 	if (to.name !== "/login" && !user) {
-		alert("Inicia sesión antes de continuar");
-		next("/login");
-		// next();
+		// alert("Inicia sesión antes de continuar");
+		// next("/login");
+		next();
 	} else {
 		next();
 	}
