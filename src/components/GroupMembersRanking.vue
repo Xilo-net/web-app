@@ -10,8 +10,6 @@ const average = computed(() => {
     return calculateAverage(groupUsers);
 });
 
-
-
 function calculateAverage() {
     if (groupUsers.value.length > 0) {
         let sum = 0;
@@ -22,13 +20,15 @@ function calculateAverage() {
     }
 }
 
+const daysData = [500, 527, 567, 481, 575, 381, 201];
+
 </script>
 
 <template>
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
         Puntaje Acumulado por día
     </h2>
-    <BarChart :height="150" :styles="{ color: 'red' }" />
+    <BarChart :daysData="daysData" :styles="{ color: 'red' }" />
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
         Promedio diaro grupal:
         <span class="font-normal sm:text-xl mt-3 tracking-tight">{{ parseInt(average) }}</span>

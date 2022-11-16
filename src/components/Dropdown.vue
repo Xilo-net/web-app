@@ -1,6 +1,6 @@
 <script setup>
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { defineProps, toRefs } from 'vue';
+import { toRefs } from 'vue';
 
 const props = defineProps({
     groupOptions: Array,
