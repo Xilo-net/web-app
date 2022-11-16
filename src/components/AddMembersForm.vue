@@ -4,7 +4,6 @@
 
 <template>
     <p class="text-sm text-gray-500">
-        Aquí va a ir una interfaz para agregar nuevos usuarios nuevos usuarios
-        nuevos usuarios nuevos usuarios nuevos usuarios
+        Aquí va a ir una interfaz para agregar nuevos usuarios
     </p>
 </template>

@@ -1,12 +1,12 @@
 <script setup>
 import { toRefs, watch } from 'vue';
+import { normalizeString } from '../helpers'
 const props = defineProps({
     groupUsers: Array,
 });
 
 const { groupUsers } = toRefs(props)
 
-const userNameQuery = ref('');
 const selectedUser = ref({
     'data': {
         "id": null,
@@ -22,9 +22,20 @@ const selectedUser = ref({
 });
 
 watch(groupUsers, (newUsers, oldUsers) => {
-    console.log()
     selectedUser.value = newUsers[0];
 })
+
+const userNameQuery = ref('');
+
+function userMatchesQuery(user) {
+    const name = `${user.first_name} ${user.last_name}`
+
+    if (userNameQuery.value == '') {
+        return true
+    }
+
+    return normalizeString(name).includes(normalizeString(userNameQuery.value));
+}
 
 </script>
 
@@ -44,10 +55,12 @@ watch(groupUsers, (newUsers, oldUsers) => {
 
     <div class="mt-3 rounded-md">
         <ul class="w-full text-sm font-medium text-gray-700 bg-gray-100 rounded-lg border border-gray-300">
-            <li v-for="(user, index) in groupUsers" :key="index" @click="selectedUser = user"
-                class="py-2 px-4 w-full border-b transition ease-in-out border-gray-200 hover:bg-lime-300">
-                {{ user.first_name }} {{ user.last_name }}
-            </li>
+            <template v-for="(user, index) in groupUsers" :key="index">
+                <li @click="selectedUser = user" v-if="userMatchesQuery(user)"
+                    class="py-2 px-4 w-full border-b transition ease-in-out border-gray-200 hover:bg-lime-300">
+                    {{ user.first_name }} {{ user.last_name }}
+                </li>
+            </template>
         </ul>
     </div>
 
@@ -61,10 +74,10 @@ watch(groupUsers, (newUsers, oldUsers) => {
             src="../../src/assets/img/default-profile-pic-yoda.jpg" alt="Rounded avatar">
     </div>
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
-        Puntaje Acumulado por día: {{ selectedUser.points }}
+        Puntaje acumulado: {{ selectedUser.points }}
     </h2>
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
-        Secciones prácticadas:
+        Secciones completadas:
     </h2>
     <ul class="inline-grid grid-cols-4 gap-4 mt-3 w-full">
         <li v-for="(lesson, index) in selectedUser.progress" :key="index">

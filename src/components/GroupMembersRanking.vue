@@ -1,22 +1,26 @@
 <script setup>
-import { toRefs } from 'vue';
+import { toRefs, computed } from 'vue';
 const props = defineProps({
     groupUsers: Array,
 });
 
 const { groupUsers } = toRefs(props)
 
-let average = ref(0);
+const average = computed(() => {
+    return calculateAverage(groupUsers);
+});
 
-// function calculateAverage() {
-//     if (groupUsers.value.length > 0) {
-//         let sum = 0;
-//         groupUsers.value.forEach(user => {
-//             sum += user.points;
-//         });
-//         return (sum / groupUsers.value.length).toFixed(2);
-//     }
-// }
+
+
+function calculateAverage() {
+    if (groupUsers.value.length > 0) {
+        let sum = 0;
+        groupUsers.value.forEach(user => {
+            sum += user.points;
+        });
+        return (sum / groupUsers.value.length).toFixed(2);
+    }
+}
 
 </script>
 
@@ -27,7 +31,7 @@ let average = ref(0);
     <BarChart :height="150" :styles="{ color: 'red' }" />
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
         Promedio diaro grupal:
-        <span class="font-normal sm:text-xl mt-3 tracking-tight">{{ average }}</span>
+        <span class="font-normal sm:text-xl mt-3 tracking-tight">{{ parseInt(average) }}</span>
     </h2>
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">Usuarios más activos</h2>
     <div class="flex flex-col">
