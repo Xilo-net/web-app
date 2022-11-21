@@ -30,7 +30,8 @@ onMounted(() => {
         data: daysData.value,
         borderColor: '#9FE271',
         tension: 0.3,
-        fill: true
+        fill: true,
+        pointHitRadius: 10
       }]
     },
     options: {
