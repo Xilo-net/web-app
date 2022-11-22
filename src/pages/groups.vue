@@ -8,12 +8,11 @@
 
 <script setup>
 import { GetPipe, PostPipe } from '../services/api.js'
-import { onMounted } from 'vue'
 useHead({ title: 'Grupos' });
 
 const groupOptions = ref([]);
-const groupUsers = ref([]);
 const selectedGroup = ref({});
+const groupUsers = ref([]);
 
 // Gets users from database
 function fetchGroups() {
@@ -21,13 +20,6 @@ function fetchGroups() {
     .then((response) => {
       groupOptions.value = response;
       selectGroup(0);
-      /*
-      selectedGroup.value = response[0];
-      groupUsers.value = selectedGroup.value.group_users.map((userData) => {
-        return userData.user;
-      });
-      console.log(groupUsers.value)
-      */
     })
     .catch((error) => {
       console.log(error)
@@ -43,16 +35,30 @@ function selectGroup(groupIndex = 0) {
 }
 
 const isModalOpen = ref(false)
+const modalTitle = ref('Agregar miembros');
 const modalSlot = ref('members')
 
 function openModal(slot) {
   modalSlot.value = slot;
+  switch (slot) {
+    case 'members':
+      modalTitle.value = 'Agregar miembros';
+      break;
+
+    case 'resources':
+      modalTitle.value = 'Agregar recursos';
+      break;
+
+    default:
+      modalTitle.value = 'Agregar agregar';
+      break;
+  }
   isModalOpen.value = true;
 }
 
 const usersData = ref([]);
 
-function updateData(data) {
+function updateUserData(data) {
   usersData.value = data;
 }
 
@@ -71,12 +77,36 @@ function uploadUsers() {
     console.log({ ...user, ...body }, 'users')
     // PostPipe(body, 'users')
   })
+}
+
+const resourceData = ref({});
+
+function updateResourceData(data) {
+  resourceData.value = data;
+}
+
+// Checks if all fields of 'resourceData' are filled
+const resourceDataIsComplete = computed(() => {
+  return resourceData.value.file && resourceData.value.title !== '' && resourceData.value.category !== ''
+})
+
+function uploadResources() {
+  console.log('UPLOAD RESOURCES')
+  console.log(resourceData.value)
+}
+
+function modalUpload() {
+  if (modalSlot.value == 'members') {
+    uploadUsers();
+  }
+  else if (modalSlot.value == 'resources') {
+    uploadResources()
+  }
 
   isModalOpen.value = false;
 }
 
 onMounted(() => {
-  // fetchUsers();
   fetchGroups();
 })
 </script>
@@ -132,10 +162,10 @@ onMounted(() => {
       </div>
     </div>
 
-    <Modal :open="isModalOpen" :isButtonActive="usersData.length > 0" title="Agregar miembros"
-      @close="isModalOpen = false" @uploadUsers="uploadUsers">
-      <AddMembersForm v-if="modalSlot == 'members'" @onUpdateData="updateData" />
-      <AddResourcesForm v-if="modalSlot == 'resources'" />
+    <Modal :open="isModalOpen" :isButtonActive="modalSlot == 'members' ? usersData.length > 0 : resourceDataIsComplete"
+      :title="modalTitle" @close="isModalOpen = false" @upload="modalUpload">
+      <AddMembersForm v-if="modalSlot == 'members'" @onUpdateData="updateUserData" />
+      <AddResourcesForm v-if="modalSlot == 'resources'" @onUpdateData="updateResourceData" />
     </Modal>
   </div>
 </template>
