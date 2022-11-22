@@ -3,6 +3,8 @@
 import { defineStore } from "pinia";
 import { router } from "../router";
 
+// Validar contraseñas https://stackoverflow.com/questions/3466850/regular-expression-to-enforce-complex-passwords-matching-3-out-of-4-rules
+
 export const useUserStore = defineStore("user", {
 	state: () => ({
 		user: null,
