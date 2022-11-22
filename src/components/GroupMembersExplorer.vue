@@ -53,8 +53,9 @@ function userMatchesQuery(user) {
         </div>
     </div>
 
-    <div class="mt-3 rounded-md">
-        <ul class="w-full text-sm font-medium text-gray-700 bg-gray-100 rounded-lg border border-gray-300">
+    <div class="mt-3 rounded-l-md">
+        <ul
+            class="w-full text-sm font-medium text-gray-700 bg-gray-100 rounded-l-lg border border-gray-300 max-h-52 overflow-y-scroll">
             <template v-for="(user, index) in groupUsers" :key="index">
                 <li @click="selectedUser = user" v-if="userMatchesQuery(user)"
                     class="py-2 px-4 w-full border-b transition ease-in-out border-gray-200 hover:bg-lime-300">

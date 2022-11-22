@@ -43,6 +43,13 @@ function selectGroup(groupIndex = 0) {
 }
 
 const isModalOpen = ref(false)
+const modalSlot = ref('members')
+
+function openModal(slot) {
+  modalSlot.value = slot;
+  isModalOpen.value = true;
+}
+
 const usersData = ref([]);
 
 function updateData(data) {
@@ -81,7 +88,7 @@ onMounted(() => {
         <div class="bg-white drop-shadow-md rounded-md p-6">
           <div class="relative">
             <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
-              Estadisticas del grupo
+              Estadisticas
             </h1>
             <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" @select="selectGroup" />
           </div>
@@ -90,16 +97,16 @@ onMounted(() => {
       </div>
 
       <div>
-        <div class="bg-white drop-shadow-md rounded-md p-6">
+        <div class="bg-white drop-shadow-md rounded-md p-6 mb-4">
           <div class="relative">
             <h1 class=" font-bold tracking-tight text-gray-900 sm:text-3xl">
-              Miembros del grupo
+              Miembros
             </h1>
             <div class="inline-block text-left absolute right-0 top-0">
               <button
                 class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white pr-4 pl-2 py-2 text-sm font-medium text-gray-700 
                        shadow-sm focus:ring-2 focus:ring-lime-400 focus:outline-none focus:ring-offset-2 hover:bg-gray-50 focus:ring-offset-gray-100;"
-                @click="isModalOpen = true">
+                @click="openModal('members')">
                 Agregar miembros
               </button>
             </div>
@@ -107,12 +114,28 @@ onMounted(() => {
 
           <GroupMembersExplorer :groupUsers="groupUsers" />
         </div>
+        <div class="bg-white drop-shadow-md rounded-md p-6">
+          <div class="relative">
+            <h1 class=" font-bold tracking-tight text-gray-900 sm:text-3xl">
+              Recursos
+            </h1>
+            <div class="inline-block text-left absolute right-0 top-0">
+              <button
+                class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white pr-4 pl-2 py-2 text-sm font-medium text-gray-700 
+                       shadow-sm focus:ring-2 focus:ring-lime-400 focus:outline-none focus:ring-offset-2 hover:bg-gray-50 focus:ring-offset-gray-100;"
+                @click="openModal('resources')">
+                Agregar recursos
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <Modal :open="isModalOpen" :isButtonActive="usersData.length > 0" title="Agregar miembros"
       @close="isModalOpen = false" @uploadUsers="uploadUsers">
-      <AddMembersForm @onUpdateData="updateData" />
+      <AddMembersForm v-if="modalSlot == 'members'" @onUpdateData="updateData" />
+      <AddResourcesForm v-if="modalSlot == 'resources'" />
     </Modal>
   </div>
 </template>

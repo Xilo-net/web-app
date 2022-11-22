@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AddMembersForm: typeof import('./src/components/AddMembersForm.vue')['default']
+    AddResourcesForm: typeof import('./src/components/AddResourcesForm.vue')['default']
     BarChart: typeof import('./src/components/BarChart.vue')['default']
     BueChart: typeof import("./src/components/BueChart.vue")["default"]
     ButtonRepo: typeof import("./src/components/ButtonRepo.vue")["default"]
