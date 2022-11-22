@@ -10,11 +10,6 @@ const props = defineProps({
 
 const { open } = toRefs(props)
 
-function updateData(data) {
-    console.log("Hello from modal!")
-    console.log(data)
-}
-
 </script>
 
 <template>

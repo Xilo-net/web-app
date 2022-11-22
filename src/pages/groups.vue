@@ -50,7 +50,7 @@ function openModal(slot) {
       break;
 
     default:
-      modalTitle.value = 'Agregar agregar';
+      modalTitle.value = 'Agregar';
       break;
   }
   isModalOpen.value = true;
@@ -64,17 +64,13 @@ function updateUserData(data) {
 
 // Uploads user to database, asumes 'usersData' has a length of at least 1
 function uploadUsers() {
-  const body = {
-    // "first_name": "Tester",
-    // "last_name": "Testing",
-    // "email": "tt@test.com",
-    "admin": false,
-    "points": 0,
-    "progress": []
-  };
-
   usersData.value.map((user) => {
-    console.log({ ...user, ...body }, 'users')
+    console.log({
+      ...user,
+      "admin": false,
+      "points": 0,
+      "progress": []
+    }, 'users')
     // PostPipe(body, 'users')
   })
 }
@@ -90,19 +86,15 @@ const resourceDataIsComplete = computed(() => {
   return resourceData.value.file && resourceData.value.title !== '' && resourceData.value.category !== ''
 })
 
+// Uploads resource to database, asumes 'resourceData' fields are filled
 function uploadResources() {
-  console.log('UPLOAD RESOURCES')
-  console.log(resourceData.value)
+  console.log('UPLOAD RESOURCES', resourceData.value)
 }
 
+// Selects modal upload function depending on form
 function modalUpload() {
-  if (modalSlot.value == 'members') {
-    uploadUsers();
-  }
-  else if (modalSlot.value == 'resources') {
-    uploadResources()
-  }
-
+  if (modalSlot.value == 'members') uploadUsers();
+  else if (modalSlot.value == 'resources') uploadResources()
   isModalOpen.value = false;
 }
 
