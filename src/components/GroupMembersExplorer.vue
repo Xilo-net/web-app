@@ -68,7 +68,7 @@ function userMatchesQuery(user) {
     <hr class="my-3">
 
     <div class="relative">
-        <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
+        <h1 class="font-bold tracking-tight text-gray-900 sm:text-2xl">
             {{ selectedUser.first_name }} {{ selectedUser.last_name }}
         </h1>
         <img class="w-20 h-20 top-0 right-0 absolute rounded-full"

@@ -13,6 +13,7 @@ useHead({ title: 'Grupos' });
 const groupOptions = ref([]);
 const selectedGroup = ref({});
 const groupUsers = ref([]);
+const groupResources = ref({});
 
 // Gets users from database
 function fetchGroups() {
@@ -27,11 +28,12 @@ function fetchGroups() {
 }
 
 // Changes group data on Dropdown selection
-function selectGroup(groupIndex = 0) {
+async function selectGroup(groupIndex = 0) {
   selectedGroup.value = groupOptions.value[groupIndex];
   groupUsers.value = selectedGroup.value.group_users.map((userData) => {
     return userData.user;
   });
+  groupResources.value = await GetPipe(`group_resources/?group_id=${selectedGroup.value.id}`);
 }
 
 const isModalOpen = ref(false)
@@ -64,15 +66,30 @@ function updateUserData(data) {
 
 // Uploads user to database, asumes 'usersData' has a length of at least 1
 function uploadUsers() {
-  usersData.value.map((user) => {
+  usersData.value.map(async (user) => {
     console.log({
       ...user,
       "admin": false,
       "points": 0,
       "progress": []
     }, 'users')
-    // PostPipe(body, 'users')
+
+    const { id } = await PostPipe({
+      ...user,
+      "admin": false,
+      "points": 0,
+      "progress": []
+    }, 'users');
+
+    const response = await PostPipe({
+      group_id: selectedGroup.value.id,
+      user_id: id,
+      group_admin: false
+    }, 'group_users')
+
+    console.log(response);
   })
+
 }
 
 const resourceData = ref({});
@@ -87,8 +104,16 @@ const resourceDataIsComplete = computed(() => {
 })
 
 // Uploads resource to database, asumes 'resourceData' fields are filled
-function uploadResources() {
-  console.log('UPLOAD RESOURCES', resourceData.value)
+async function uploadResources() {
+  const { title, category } = resourceData.value;
+
+  const id = selectedGroup.value.id;
+
+  await PostPipe({
+    name: title,
+    category,
+    group_id: id
+  }, 'group_resources')
 }
 
 // Selects modal upload function depending on form
@@ -150,6 +175,20 @@ onMounted(() => {
               </button>
             </div>
           </div>
+
+          <template v-for="(category, key) in groupResources">
+            <p class="font-semibold text-lg mt-2">{{ key }}</p>
+            <ul class="inline-grid grid-cols-4 gap-4 w-full">
+              <li v-for="(resource, index) in category">
+                {{ resource.name }}
+              </li>
+            </ul>
+            <hr>
+          </template>
+
+          <h3>
+
+          </h3>
         </div>
       </div>
     </div>
