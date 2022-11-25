@@ -7,8 +7,28 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    ButtonRepo: typeof import('./src/components/ButtonRepo.vue')['default']
+    AddMembersForm: typeof import('./src/components/AddMembersForm.vue')['default']
+    AddResourcesForm: typeof import('./src/components/AddResourcesForm.vue')['default']
+    BarChart: typeof import('./src/components/BarChart.vue')['default']
+    BueChart: typeof import("./src/components/BueChart.vue")["default"]
+    ButtonRepo: typeof import("./src/components/ButtonRepo.vue")["default"]
+    Dialog: typeof import("@headlessui/vue")["Dialog"]
+    DialogPanel: typeof import("@headlessui/vue")["DialogPanel"]
+    DialogTitle: typeof import("@headlessui/vue")["DialogTitle"]
+    Dropdown: typeof import('./src/components/Dropdown.vue')['default']
+    GroupMembersExplorer: typeof import('./src/components/GroupMembersExplorer.vue')['default']
+    GroupMembersRanking: typeof import('./src/components/GroupMembersRanking.vue')['default']
+    LoginForm: typeof import('./src/components/LoginForm.vue')['default']
+    Menu: typeof import("@headlessui/vue")["Menu"]
+    MenuButton: typeof import("@headlessui/vue")["MenuButton"]
+    MenuItem: typeof import("@headlessui/vue")["MenuItem"]
+    MenuItems: typeof import("@headlessui/vue")["MenuItems"]
+    Modal: typeof import('./src/components/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Sidebar: typeof import('./src/components/Sidebar.vue')['default']
+    SignUpForm: typeof import('./src/components/SignUpForm.vue')['default']
+    TransitionChild: typeof import("@headlessui/vue")["TransitionChild"]
+    TransitionRoot: typeof import("@headlessui/vue")["TransitionRoot"]
   }
 }
