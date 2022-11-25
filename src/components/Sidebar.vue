@@ -24,19 +24,24 @@
     <div class="flex"></div>
 
     <div class="menu">
-      <router-link to="/login" class="button">
-        <span class="material-icons">settings</span>
-        <span class="text">Configuración</span>
-      </router-link>
+      <a class="button" @click="onSignOut">
+        <span class="material-icons">logout</span>
+        <span class="text">Cerrar sesión</span>
+      </a>
     </div>
   </aside>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { useUserStore } from "../stores/user";
+const userStore = useUserStore();
+
+function onSignOut() {
+  userStore.signOut();
+}
+
 
 const is_expanded = ref(false);
-
 const sidebarElements = [
   {
     route: "/",

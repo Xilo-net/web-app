@@ -33,7 +33,6 @@ async function selectGroup(groupIndex = 0) {
   groupUsers.value = selectedGroup.value.group_users.map((userData) => {
     return userData.user;
   });
-  console.log(groupUsers.value);
   groupResources.value = await GetPipe(`group_resources/?group_id=${selectedGroup.value.id}`);
 }
 
@@ -130,7 +129,6 @@ function modalUpload() {
 
 onMounted(() => {
   fetchGroups();
-  console.log(groupUsers.value);
 })
 </script>
  

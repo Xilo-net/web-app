@@ -4,9 +4,10 @@ const userStore = useUserStore();
 
 const email = ref('')
 const password = ref('')
+const remember = ref(false);
 
 async function login() {
-    await userStore.signIn(email.value, password.value)
+    await userStore.signIn(email.value, password.value, remember.value)
 }
 
 </script>
@@ -31,7 +32,7 @@ async function login() {
 
         <div class="md:flex justify-between">
             <div class="flex justify-center">
-                <input id="remember-me" name="remember-me" type="checkbox"
+                <input id="remember-me" name="remember-me" type="checkbox" v-model="remember"
                     class="h-4 w-4 rounded border-gray-300 text-lime-500 focus:ring-lime-400" />
                 <label for="remember-me" class="ml-2 block text-sm text-gray-900">Recuerdame</label>
             </div>

@@ -8,7 +8,7 @@ import { router } from "../router";
 
 export const useUserStore = defineStore("user", {
 	state: () => ({
-		user: null,
+		user: JSON.parse(localStorage.getItem("user")),
 	}),
 
 	actions: {
@@ -28,18 +28,33 @@ export const useUserStore = defineStore("user", {
 			// const user = await res.json();
 			// this.user = user;
 		},
-		async signIn(email, password) {
+		async signIn(email, password, remember) {
 			console.log(`You tried to log in with: ${email} ${password}`);
 			try {
 				const { token } = await LogInPipe({ email, password }, "auth/login");
-				this.userToken = token;
-				this.user = {
-					id: "01741757",
-					name: "Luis Ángel Guzmán",
-					email: "lag@test.com",
-					token,
-				};
-				router.push("/groups");
+
+				// if token is not undefined
+				if (!!token) {
+					const user = {
+						id: "01741757",
+						name: "Luis Ángel Guzmán",
+						email: "lag@test.com",
+						token,
+					};
+
+					this.user = user;
+
+					if (remember) {
+						localStorage.setItem("user", JSON.stringify(user));
+					} else {
+						sessionStorage.setItem("user", JSON.stringify(user));
+					}
+
+					router.push("/groups");
+				} // TODO: poner un mensaje de error
+				else {
+					return errorMsg;
+				}
 			} catch (error) {
 				console.error(error);
 			}
@@ -52,6 +67,11 @@ export const useUserStore = defineStore("user", {
 			// });
 			// const user = await res.json();
 			// this.user = user;
+		},
+		async signOut() {
+			this.user = null;
+			localStorage.removeItem("user");
+			router.push("/login");
 		},
 	},
 });
