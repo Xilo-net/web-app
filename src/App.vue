@@ -8,9 +8,8 @@ const userStore = useUserStore();
 
 <template>
   <div class="flex min-h-screen">
-    <!-- <Sidebar v-if="!!userStore.user" /> -->
-    <Sidebar />
-    <main class="p-0 flex-1 pl-16 md:pl-8 md:p-8">
+    <Sidebar v-if="userStore.user !== null" />
+    <main class="p-0 flex-1 pl-16 lg:pl-8 lg:p-8">
       <router-view />
     </main>
   </div>

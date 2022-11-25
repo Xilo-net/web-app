@@ -1,5 +1,6 @@
 // /store/user.js
 
+import { LogInPipe, PostPipe } from "../services/api";
 import { defineStore } from "pinia";
 import { router } from "../router";
 
@@ -29,8 +30,19 @@ export const useUserStore = defineStore("user", {
 		},
 		async signIn(email, password) {
 			console.log(`You tried to log in with: ${email} ${password}`);
-			this.user = true;
-			router.push("/groups");
+			try {
+				const { token } = await LogInPipe({ email, password }, "auth/login");
+				this.userToken = token;
+				this.user = {
+					id: "01741757",
+					name: "Luis Ángel Guzmán",
+					email: "lag@test.com",
+					token,
+				};
+				router.push("/groups");
+			} catch (error) {
+				console.error(error);
+			}
 			// const res = await fetch("https://localhost:3000/register", {
 			// 	method: "POST",
 			// 	headers: {

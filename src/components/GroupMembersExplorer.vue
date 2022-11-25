@@ -22,7 +22,23 @@ const selectedUser = ref({
 });
 
 watch(groupUsers, (newUsers, oldUsers) => {
-    selectedUser.value = newUsers[0];
+    if (groupUsers.value.length > 0) {
+        selectedUser.value = newUsers[0];
+    }
+    // If the array is empty the selected user is filled with placeholder data
+    else {
+        selectedUser.value = {
+            "id": null,
+            "first_name": 'No hay usuarios en este grupo',
+            "last_name": null,
+            "email": null,
+            "progress": [],
+            "admin": null,
+            "points": 0,
+            "created_at": null,
+            "updated_at": null
+        }
+    }
 })
 
 const userNameQuery = ref('');
