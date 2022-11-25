@@ -34,12 +34,12 @@ async function login() {
             <div class="flex justify-center">
                 <input id="remember-me" name="remember-me" type="checkbox" v-model="remember"
                     class="h-4 w-4 rounded border-gray-300 text-lime-500 focus:ring-lime-400" />
-                <label for="remember-me" class="ml-2 block text-sm text-gray-900">Recuerdame</label>
+                <label for="remember-me" class="ml-2 block text-sm text-gray-900">Recuérdame</label>
             </div>
 
             <div class="mt-4 md:mt-0 text-sm text-center">
                 <a href="#" class="font-medium text-gray-600 hover:text-gray-900 hover:underline">
-                    Olvistaste tu contraseña?
+                    ¿Olvidaste tu contraseña?
                 </a>
             </div>
         </div>
@@ -47,7 +47,7 @@ async function login() {
         <div>
             <button type="submit"
                 class="group relative flex w-full justify-center rounded-md border border-transparent bg-lime-400 py-2 px-4 text-sm font-medium text-gray hover:bg-lime-400 focus:outline-none focus:ring-2 focus:ring-lime-200 focus:ring-offset-2">
-                Inicar sesión
+                Iniciar sesión
             </button>
         </div>
     </form>

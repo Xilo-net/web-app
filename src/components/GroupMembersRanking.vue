@@ -26,11 +26,11 @@ const daysData = [500, 527, 567, 481, 575, 381, 201];
 
 <template>
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
-        Puntaje Acumulado por día
+        Puntaje acumulado por día
     </h2>
     <BarChart :daysData="daysData" :styles="{ color: 'red' }" />
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">
-        Promedio diaro grupal:
+        Promedio diario grupal:
         <span class="font-normal sm:text-xl mt-3 tracking-tight">{{ parseInt(average) }}</span>
     </h2>
     <h2 class="font-semibold sm:text-xl mt-3 tracking-tight">Usuarios más activos</h2>

@@ -32,7 +32,7 @@ watch(title, updateData);
         class="w-full border-gray-300 rounded-md mb-3 focus:border-lime-300 focus:outline-none focus:ring-lime-300"
         type="text">
 
-    <label for="title">Titulo</label>
+    <label for="title">Título</label>
     <input id="title" placeholder="ej. Verde" v-model="title"
         class="w-full border-gray-300 rounded-md mb-3 focus:border-lime-300 focus:outline-none focus:ring-lime-300"
         type="text">

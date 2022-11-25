@@ -139,7 +139,7 @@ onMounted(() => {
         <div class="bg-white drop-shadow-md rounded-md p-6">
           <div class="relative">
             <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
-              Estadisticas
+              Estadísticas
             </h1>
             <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" @select="selectGroup" />
           </div>

@@ -8,7 +8,9 @@ import { router } from "../router";
 
 export const useUserStore = defineStore("user", {
 	state: () => ({
-		user: JSON.parse(localStorage.getItem("user")),
+		user:
+			JSON.parse(localStorage.getItem("user")) ??
+			JSON.parse(sessionStorage.getItem("user")),
 	}),
 	actions: {
 		async fetchUser() {

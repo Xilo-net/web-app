@@ -11,7 +11,7 @@
       </button>
     </div>
 
-    <h3>Menu</h3>
+    <h3>Menú</h3>
     <div class="menu">
       <span v-for="({ route, icon, label }, index) in sidebarElements" :key="index">
         <router-link class="button" :to="`${route}`">
