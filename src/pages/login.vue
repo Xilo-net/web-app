@@ -1,8 +1,8 @@
 <script setup>
 import LoginForm from '../components/LoginForm.vue';
-function onClickCreateAccount() {
-    console.log('Crear cuenta nueva!')
-} 
+
+const loginMode = ref(true);
+
 </script>
 
 <template>
@@ -11,16 +11,31 @@ function onClickCreateAccount() {
             <div>
                 <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=lime&shade=400"
                     alt="Signa Admin" />
-                <h2 class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900">Iniciar sesión </h2>
+                <h2 class="mt-8 text-center text-3xl font-bold tracking-tight text-gray-900">
+                    {{ loginMode ? 'Iniciar sesión' : 'Crear cuenta' }}
+                </h2>
             </div>
-            <LoginForm />
-            <hr>
-            <div class="text-center">
-                <p class="font-light text-sm">¿No tienes cuenta?</p>
-                <a @click="onClickCreateAccount"
-                    class="font-light text-sm text-lime-700 hover:text-lime-900 hover:underline">
-                    Crear cuenta
-                </a>
+            <div v-if="loginMode">
+                <LoginForm />
+                <hr>
+                <div class="text-center">
+                    <p class="font-light mt-2 text-sm">¿No tienes cuenta?</p>
+                    <a @click="loginMode = false"
+                        class="font-light mt-2 text-sm text-lime-700 hover:text-lime-900 hover:underline">
+                        Crear cuenta
+                    </a>
+                </div>
+            </div>
+            <div v-else>
+                <SignUpForm />
+                <hr>
+                <div class="text-center">
+                    <p class="font-light mt-2 text-sm">¿Ya tienes cuenta?</p>
+                    <a @click="loginMode = true"
+                        class="font-light mt-2 text-sm text-lime-700 hover:text-lime-900 hover:underline">
+                        Iniciar sesión
+                    </a>
+                </div>
             </div>
         </div>
     </div>

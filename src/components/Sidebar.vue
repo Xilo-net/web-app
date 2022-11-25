@@ -44,11 +44,6 @@ function onSignOut() {
 const is_expanded = ref(false);
 const sidebarElements = [
   {
-    route: "/",
-    icon: "home",
-    label: "Dashboard",
-  },
-  {
     route: "/groups",
     icon: "groups",
     label: "Grupos",
