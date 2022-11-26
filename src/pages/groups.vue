@@ -16,7 +16,8 @@ const groupUsers = ref([]);
 const groupResources = ref({});
 
 // Gets users from database
-function fetchGroups() {
+async function fetchGroupsInfo() {
+  console.log('FETCHING GROUPS');
   GetPipe('groups')
     .then((response) => {
       groupOptions.value = response;
@@ -25,6 +26,7 @@ function fetchGroups() {
     .catch((error) => {
       console.log(error)
     })
+  console.log('FETCHING GROUPS');
 }
 
 // Changes group data on Dropdown selection
@@ -51,11 +53,25 @@ function openModal(slot) {
       modalTitle.value = 'Agregar recursos';
       break;
 
+    case 'groups':
+      modalTitle.value = 'Crear grupo';
+      break;
+
     default:
       modalTitle.value = 'Agregar';
       break;
   }
   isModalOpen.value = true;
+}
+
+const newGroupName = ref('');
+
+async function uploadGroup() {
+  PostPipe({
+    name: newGroupName.value
+  }, 'groups').then((res) => {
+    console.log('Respuesta grupos: ', res)
+  })
 }
 
 const usersData = ref([]);
@@ -121,14 +137,16 @@ async function uploadResources() {
 }
 
 // Selects modal upload function depending on form
-function modalUpload() {
+async function modalUpload() {
   if (modalSlot.value == 'members') uploadUsers();
-  else if (modalSlot.value == 'resources') uploadResources()
+  else if (modalSlot.value == 'resources') uploadResources();
+  else if (modalSlot.value == 'groups') uploadGroup();
+  await fetchGroupsInfo();
   isModalOpen.value = false;
 }
 
 onMounted(() => {
-  fetchGroups();
+  fetchGroupsInfo();
 })
 </script>
  
@@ -141,7 +159,8 @@ onMounted(() => {
             <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
               Estadísticas
             </h1>
-            <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" @select="selectGroup" />
+            <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" @select="selectGroup"
+              @create="openModal('groups')" />
           </div>
           <GroupMembersRanking :group-users="groupUsers" />
         </div>
@@ -162,7 +181,6 @@ onMounted(() => {
               </button>
             </div>
           </div>
-
           <GroupMembersExplorer :groupUsers="groupUsers" />
         </div>
         <div class="bg-white drop-shadow-md rounded-md p-6">
@@ -189,18 +207,20 @@ onMounted(() => {
             </ul>
             <hr>
           </template>
-
-          <h3>
-
-          </h3>
         </div>
       </div>
     </div>
 
-    <Modal :open="isModalOpen" :isButtonActive="modalSlot == 'members' ? usersData.length > 0 : resourceDataIsComplete"
-      :title="modalTitle" @close="isModalOpen = false" @upload="modalUpload">
+    <Modal :open="isModalOpen" :title="modalTitle" @close="isModalOpen = false" @upload="modalUpload"
+      :isButtonActive="modalSlot == 'members' ? usersData.length > 0 : (modalSlot == 'resources' ? resourceDataIsComplete : newGroupName != '')">
       <AddMembersForm v-if="modalSlot == 'members'" @onUpdateData="updateUserData" />
       <AddResourcesForm v-if="modalSlot == 'resources'" @onUpdateData="updateResourceData" />
+      <template v-if="modalSlot == 'groups'">
+        <label for="groupName">Nombre del grupo</label>
+        <input id="groupName" placeholder="ej. Equipo RH 4" v-model="newGroupName"
+          class="w-full border-gray-300 rounded-md mb-3 focus:border-lime-300 focus:outline-none focus:ring-lime-300"
+          type="text">
+      </template>
     </Modal>
   </div>
 </template>
