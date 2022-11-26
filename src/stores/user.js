@@ -3,6 +3,7 @@
 import { LogInPipe, PostPipe } from "../services/api";
 import { defineStore } from "pinia";
 import { router } from "../router";
+import { validatePassword } from "../helpers";
 
 // Validar contraseñas https://stackoverflow.com/questions/3466850/regular-expression-to-enforce-complex-passwords-matching-3-out-of-4-rules
 
@@ -20,9 +21,14 @@ export const useUserStore = defineStore("user", {
 		},
 		async signUp(userBody, remember) {
 			try {
-				console.log(userBody);
+				if (userBody.password !== userBody.password_confirmation)
+					throw "matching";
+
+				console.log(userBody.password);
+				const passwordValidation = validatePassword(userBody.password);
+				if (passwordValidation !== "success") throw passwordValidation;
+
 				const { id } = await LogInPipe(userBody, "users");
-				console.log("ID: ", id);
 				// if user was created succesfully
 				if (!!id) {
 					const { email, password } = userBody;
@@ -42,13 +48,14 @@ export const useUserStore = defineStore("user", {
 					return "errorMsg";
 				}
 			} catch (error) {
-				console.error("Creating", error);
+				return error;
 			}
 		},
 		async signIn(email, password, remember) {
-			console.log(`You tried to log in with: ${email} ${password}`);
 			try {
 				const user = await LogInPipe({ email, password }, "auth/login");
+
+				if (user.error) throw "unsuccesfull login";
 
 				this.user = user;
 
@@ -60,8 +67,7 @@ export const useUserStore = defineStore("user", {
 
 				router.push("/groups");
 			} catch (error) {
-				// TODO: poner un mensaje de error
-				console.error(error);
+				return error;
 			}
 		},
 		async signOut() {

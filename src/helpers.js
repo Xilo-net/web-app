@@ -35,3 +35,24 @@ export function validateEmail(email = "") {
 		email
 	);
 }
+
+// Checks if password is at least 8 characters long, has 1 capital letter, 1 lowercase letter, 1 digit & 1 special character
+export function validatePassword(password = "") {
+	if (password.length < 8) {
+		return "length";
+	}
+	if (!/\d/.test(password)) {
+		return "digits";
+	}
+	if (!/[A-Z]/.test(password)) {
+		return "uppercase";
+	}
+	if (!/[a-z]/.test(password)) {
+		return "lowercase";
+	}
+	if (!/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(password)) {
+		return "special";
+	}
+
+	return "success";
+}

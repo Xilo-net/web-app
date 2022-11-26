@@ -18,6 +18,9 @@ function calculateAverage() {
         });
         return (sum / groupUsers.value.length).toFixed(2);
     }
+    else {
+        return 0;
+    }
 }
 
 const daysData = [500, 527, 567, 481, 575, 381, 201];

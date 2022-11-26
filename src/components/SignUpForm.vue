@@ -9,6 +9,8 @@ const password = ref('')
 const password_confirmation = ref('')
 const remember = ref(false);
 
+const errorMsg = ref('');
+
 async function login() {
 
     const userBody = {
@@ -22,7 +24,31 @@ async function login() {
         "password_confirmation": password_confirmation.value,
     }
 
-    await userStore.signUp(userBody, remember.value)
+    const errorCode = await userStore.signUp(userBody, remember.value);
+
+    switch (errorCode) {
+        case 'matching':
+            errorMsg.value = 'Las contraseñas no coinciden';
+            break;
+        case 'length':
+            errorMsg.value = 'La contraseña debe tener al menos 8 caracteres';
+            break;
+        case 'lowercase':
+            errorMsg.value = 'La contraseña debe tener al menos una minuscula';
+            break;
+        case 'uppercase':
+            errorMsg.value = 'La contraseña debe tener al menos una mayuscula';
+            break;
+        case 'digits':
+            errorMsg.value = 'La contraseña debe tener al menos un digito';
+            break;
+        case 'special':
+            errorMsg.value = 'La contraseña debe tener al menos un carácter especial';
+            break;
+        default:
+            errorMsg.value = 'Hubo un error con la creación de su usuario';
+            break;
+    }
 }
 
 </script>
@@ -67,6 +93,8 @@ async function login() {
                     placeholder="Confirmar Contraseña" />
             </div>
         </div>
+
+        <p v-if="errorMsg !== ''" class="text-sm text-red-500"> {{ errorMsg }} </p>
 
         <div class="md:flex justify-between">
             <div class="flex justify-center">

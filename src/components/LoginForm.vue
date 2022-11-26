@@ -6,8 +6,10 @@ const email = ref('')
 const password = ref('')
 const remember = ref(false);
 
+const errorMsg = ref(false);
+
 async function login() {
-    await userStore.signIn(email.value, password.value, remember.value)
+    errorMsg.value = await userStore.signIn(email.value, password.value, remember.value)
 }
 
 </script>
@@ -29,6 +31,8 @@ async function login() {
                     placeholder="Contraseña" />
             </div>
         </div>
+
+        <p v-if="errorMsg" class="text-sm text-red-500"> Tu correo o contraseña son incorrectos </p>
 
         <div class="md:flex justify-between">
             <div class="flex justify-center">
