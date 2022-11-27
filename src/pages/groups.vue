@@ -16,21 +16,20 @@ const groupUsers = ref([]);
 const groupResources = ref({});
 
 // Gets users from database
-async function fetchGroupsInfo() {
-  console.log('FETCHING GROUPS');
+function fetchGroupsInfo() {
   GetPipe('groups')
     .then((response) => {
       groupOptions.value = response;
-      selectGroup(0);
+      selectGroup(sessionStorage.getItem("selectedGroupIndex") ?? 0);
     })
     .catch((error) => {
       console.log(error)
     })
-  console.log('FETCHING GROUPS');
 }
 
 // Changes group data on Dropdown selection
 async function selectGroup(groupIndex = 0) {
+  sessionStorage.setItem("selectedGroupIndex", groupIndex);
   selectedGroup.value = groupOptions.value[groupIndex];
   groupUsers.value = selectedGroup.value.group_users.map((userData) => {
     return userData.user;
@@ -67,11 +66,9 @@ function openModal(slot) {
 const newGroupName = ref('');
 
 async function uploadGroup() {
-  PostPipe({
+  await PostPipe({
     name: newGroupName.value
-  }, 'groups').then((res) => {
-    console.log('Respuesta grupos: ', res)
-  })
+  }, 'groups')
 }
 
 const usersData = ref([]);
@@ -81,16 +78,8 @@ function updateUserData(data) {
 }
 
 // Uploads user to database, asumes 'usersData' has a length of at least 1
-function uploadUsers() {
+async function uploadUsers() {
   usersData.value.map(async (user) => {
-    console.log({
-      ...user,
-      "admin": false,
-      "points": 0,
-      "progress": [],
-      "password": "unacontraseñaasísupersegura123",
-      "password_confirmation": "unacontraseñaasísupersegura123",
-    }, 'users')
 
     const { id } = await PostPipe({
       ...user,
@@ -138,11 +127,15 @@ async function uploadResources() {
 
 // Selects modal upload function depending on form
 async function modalUpload() {
-  if (modalSlot.value == 'members') uploadUsers();
-  else if (modalSlot.value == 'resources') uploadResources();
-  else if (modalSlot.value == 'groups') uploadGroup();
-  await fetchGroupsInfo();
-  isModalOpen.value = false;
+  if (modalSlot.value == 'members') await uploadUsers();
+  else if (modalSlot.value == 'resources') await uploadResources();
+  else if (modalSlot.value == 'groups') await uploadGroup();
+
+  setTimeout(() => {
+    fetchGroupsInfo()
+    isModalOpen.value = false;
+  }, 700);
+
 }
 
 onMounted(() => {

@@ -63,7 +63,7 @@ watch(email, updateData);
     <label for="email">Correo Electrónico</label>
     <input id="email" placeholder="ej. nombre@empresa.com" v-model="email"
         class="w-full border-gray-300 rounded-md mb-3 focus:border-lime-300 focus:outline-none focus:ring-lime-300"
-        type="text">
+        type="email">
 
     <hr class="mb-5">
 
