@@ -134,7 +134,7 @@ async function modalUpload() {
   setTimeout(() => {
     fetchGroupsInfo()
     isModalOpen.value = false;
-  }, 700);
+  }, 1000);
 
 }
 
