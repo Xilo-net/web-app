@@ -81,14 +81,26 @@ function updateUserData(data) {
 async function uploadUsers() {
   usersData.value.map(async (user) => {
 
-    const { id } = await PostPipe({
-      ...user,
-      "admin": false,
-      "points": 0,
-      "progress": [],
-      "password": "unacontraseñaasísupersegura123",
-      "password_confirmation": "unacontraseñaasísupersegura123",
-    }, 'users')
+    let id;
+    try {
+      const res = await PostPipe({
+        ...user,
+        "admin": false,
+        "points": 0,
+        "progress": [],
+        "password": "unacontraseñaasísupersegura123",
+        "password_confirmation": "unacontraseñaasísupersegura123",
+      }, 'users')
+
+      if (res.email[0] == 'has already been taken') {
+        throw 'already bee taken'
+      }
+
+      id = res.id;
+    } catch (error) {
+      const res = await GetPipe(`users?email=${user.email}`)
+      id = res.id;
+    }
 
     const response = await PostPipe({
       group_id: selectedGroup.value.id,
