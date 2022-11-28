@@ -11,7 +11,7 @@ import { GetPipe, PostPipe } from '../services/api.js'
 useHead({ title: 'Grupos' });
 
 const groupOptions = ref([]);
-const selectedGroup = ref({});
+const selectedGroup = ref({ name: null });
 const groupUsers = ref([]);
 const groupResources = ref({});
 
@@ -152,8 +152,8 @@ onMounted(() => {
             <h1 class="font-bold tracking-tight text-gray-900 sm:text-3xl">
               Estadísticas
             </h1>
-            <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" @select="selectGroup"
-              @create="openModal('groups')" />
+            <Dropdown class="right-0 top-0 absolute" :groupOptions="groupOptions" :title="selectedGroup.name"
+              @select="selectGroup" @create="openModal('groups')" />
           </div>
           <GroupMembersRanking :group-users="groupUsers" />
         </div>

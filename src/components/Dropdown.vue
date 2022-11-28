@@ -4,23 +4,20 @@ import { toRefs } from 'vue';
 
 const props = defineProps({
     groupOptions: Array,
+    title: String,
 });
 
 const { groupOptions } = toRefs(props)
 
-function logSelectedGroup(group) {
-    console.log('Grupo: ', group)
-}
 
 </script>
-
 <template>
     <Menu as="div" class="inline-block text-left">
         <MenuButton
             class="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white pr-4 pl-2 py-2 text-sm font-medium text-gray-700 shadow-sm 
                    focus:ring-2 focus:ring-lime-400 focus:outline-none focus:ring-offset-2 hover:bg-gray-50 focus:ring-offset-gray-100;">
             <span class="material-icons">expand_more</span>
-            Seleccionar grupo
+            {{ title }}
         </MenuButton>
         <transition enter-active-class="transition ease-out duration-100"
             enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100"

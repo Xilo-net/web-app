@@ -86,11 +86,11 @@ async function login() {
                     placeholder="Contraseña" />
             </div>
             <div>
-                <label for="password_confirmation" class="sr-only">Confirmar Contraseña</label>
+                <label for="password_confirmation" class="sr-only">Confirmar contraseña</label>
                 <input id="password_confirmation" name="password_confirmation" type="password" required=""
                     v-model="password_confirmation"
                     class="relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-lime-200 focus:outline-none focus:ring-lime-500 sm:text-sm"
-                    placeholder="Confirmar Contraseña" />
+                    placeholder="Confirmar contraseña" />
             </div>
         </div>
 
@@ -100,12 +100,12 @@ async function login() {
             <div class="flex justify-center">
                 <input id="remember-me" name="remember-me" type="checkbox" v-model="remember"
                     class="h-4 w-4 rounded border-gray-300 text-lime-500 focus:ring-lime-400" />
-                <label for="remember-me" class="ml-2 block text-sm text-gray-900">Recuerdame</label>
+                <label for="remember-me" class="ml-2 block text-sm text-gray-900">Recuérdame</label>
             </div>
 
             <div class="mt-4 md:mt-0 text-sm text-center">
                 <a href="#" class="font-medium text-gray-600 hover:text-gray-900 hover:underline">
-                    Olvistaste tu contraseña?
+                    ¿Olvidaste tu contraseña?
                 </a>
             </div>
         </div>
