@@ -14,14 +14,16 @@ const errorMsg = ref('');
 async function login() {
 
     const userBody = {
-        "admin": true,
-        "points": 0,
-        "progress": [],
-        "first_name": name.value,
-        "last_name": surname.value,
-        "email": email.value,
-        "password": password.value,
-        "password_confirmation": password_confirmation.value,
+        "user": {
+            "admin": true,
+            "points": 0,
+            "progress": [],
+            "first_name": name.value,
+            "last_name": surname.value,
+            "email": email.value,
+            "password": password.value,
+            "password_confirmation": password_confirmation.value,
+        }
     }
 
     const errorCode = await userStore.signUp(userBody, remember.value);

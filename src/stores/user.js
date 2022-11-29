@@ -21,17 +21,16 @@ export const useUserStore = defineStore("user", {
 		},
 		async signUp(userBody, remember) {
 			try {
-				if (userBody.password !== userBody.password_confirmation)
+				if (userBody.user.password !== userBody.user.password_confirmation)
 					throw "matching";
 
-				console.log(userBody.password);
-				const passwordValidation = validatePassword(userBody.password);
+				const passwordValidation = validatePassword(userBody.user.password);
 				if (passwordValidation !== "success") throw passwordValidation;
 
 				const { id } = await LogInPipe(userBody, "users");
 				// if user was created succesfully
 				if (!!id) {
-					const { email, password } = userBody;
+					const { email, password } = userBody.user;
 					const user = await LogInPipe({ email, password }, "auth/login");
 
 					this.user = user;

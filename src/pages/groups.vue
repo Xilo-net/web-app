@@ -84,12 +84,14 @@ async function uploadUsers() {
     let id;
     try {
       const res = await PostPipe({
-        ...user,
-        "admin": false,
-        "points": 0,
-        "progress": [],
-        "password": "unacontraseñaasísupersegura123",
-        "password_confirmation": "unacontraseñaasísupersegura123",
+        "user": {
+          ...user,
+          "admin": false,
+          "points": 0,
+          "progress": [],
+          "password": "unacontraseñaasísupersegura123",
+          "password_confirmation": "unacontraseñaasísupersegura123",
+        }
       }, 'users')
 
       if (res.email[0] == 'has already been taken') {
