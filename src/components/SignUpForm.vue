@@ -26,6 +26,7 @@ async function login() {
         }
     }
 
+    // Shows error message if login is not succesful, else, goes to /groups
     const errorCode = await userStore.signUp(userBody, remember.value);
 
     switch (errorCode) {

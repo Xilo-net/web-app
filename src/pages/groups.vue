@@ -37,6 +37,7 @@ async function selectGroup(groupIndex = 0) {
   groupResources.value = await GetPipe(`group_resources/?group_id=${selectedGroup.value.id}`);
 }
 
+// modal data & state
 const isModalOpen = ref(false)
 const modalTitle = ref('Agregar miembros');
 const modalSlot = ref('members')
@@ -65,6 +66,7 @@ function openModal(slot) {
 
 const newGroupName = ref('');
 
+// Uploads group to database, asumes 'newGroupName' is not null
 async function uploadGroup() {
   await PostPipe({
     name: newGroupName.value
@@ -117,6 +119,7 @@ async function uploadUsers() {
 
 const resourceData = ref({});
 
+// Updates global variable
 function updateResourceData(data) {
   resourceData.value = data;
 }

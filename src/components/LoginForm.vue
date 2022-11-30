@@ -9,6 +9,7 @@ const remember = ref(false);
 const errorMsg = ref(false);
 
 async function login() {
+    // Shows error message if login is not succesful, else, goes to /groups
     errorMsg.value = await userStore.signIn(email.value, password.value, remember.value)
 }
 

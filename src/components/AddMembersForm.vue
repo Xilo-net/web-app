@@ -29,7 +29,6 @@ const handleFileUpload = async () => {
         if (errors.length === 0) {
             emit('onUpdateData', rows)
         }
-        // TODO: Agregar excepciones
     })
 }
 
@@ -48,8 +47,6 @@ watch(email, updateData);
 </script>
 
 <template>
-    <!-- TODO: Agregar funcionalidad del formulario -->
-    <!-- TODO: Deshabilitar  la subida de archivo si alguno de los campos tiene algo -->
     <label for="name">Nombre(s)</label>
     <input id="name" placeholder="ej. Luis Ángel" v-model="name"
         class="w-full border-gray-300 rounded-md mb-3 focus:border-lime-300 focus:outline-none focus:ring-lime-300"
@@ -79,9 +76,6 @@ watch(email, updateData);
     </span>
     <p class="mt-3 text-sm font-light text-gray-600">
         La hoja debe tener 3 columnas con los titulos 'nombres', 'apellidos' y 'email'
-        <!-- <a href=".././assets/xlsx/user-form.xlsx" download class="font-normal text-gray-700 underline">
-            Descargar plantilla
-        </a> -->
     </p>
 
 </template>

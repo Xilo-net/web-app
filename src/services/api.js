@@ -1,6 +1,5 @@
 import { useUserStore } from "../stores/user";
 
-// Aquí va el API service
 const baseUrl = "https://xilonet.herokuapp.com/";
 
 export async function GetPipe(endpoint) {
